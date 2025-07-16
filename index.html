@@ -5,19 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stepout - Experiência Imersiva 3D</title>
+    <meta name="description"
+        content="Explore novos horizontes com nossa plataforma de experiências 3D imersivas e interativas">
+    <meta name="keywords" content="3D, imersão, interatividade, web design, experiência digital, partículas">
+
+    <!-- Pré-conexão para CDNs -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
     <style>
         /* Reset e Estilos Gerais */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: 'grotley', children, minomu;
         }
 
         body {
             overflow-x: hidden;
-            background: #f5f5f5;
-            color: #333;
+            background: #c2c0c0;
+            color: #777373;
+            line-height: 1.6;
         }
 
         /* Header Fixo */
@@ -51,7 +59,7 @@
         }
 
         header.scrolled .logo {
-            color: #3a9342;
+            color: #366b3a;
         }
 
         .nav-links {
@@ -96,6 +104,8 @@
             font-size: 1.5rem;
             color: white;
             z-index: 1001;
+            background: none;
+            border: none;
         }
 
         header.scrolled .menu-toggle {
@@ -176,7 +186,7 @@
         /* Quando aparecer na rolagem */
         .hero h1.show,
         .hero p.show {
-            opacity: 5;
+            opacity: 1;
             transform: translateY(0);
         }
 
@@ -200,10 +210,7 @@
             background: transparent;
             color: rgb(23, 64, 32);
             border-color: rgb(57, 54, 54);
-
-            /* efeito "acendendo a luz" */
-            box-shadow:
-                0 0 8px rgba(23, 64, 32, 0.5),
+            box-shadow: 0 0 8px rgba(23, 64, 32, 0.5),
                 0 0 16px rgba(23, 64, 32, 0.3),
                 0 15px 30px rgba(0, 0, 0, 0.2);
         }
@@ -222,7 +229,7 @@
         /* Seção de Texto */
         .section-title {
             font-size: clamp(1.8rem, 4vw, 2.5rem);
-            margin-bottom: 50px;
+            margin-bottom: 30px;
             color: #333;
             text-align: center;
             opacity: 0;
@@ -260,19 +267,23 @@
             font-size: clamp(1.8rem, 4vw, 2.5rem);
             color: #333;
             z-index: 10;
-            opacity: 0;
+            opacity: 1;
+            /* Alterado para visível */
             text-align: center;
             width: 100%;
             padding: 0 20px;
+            transition: all 0.5s ease;
         }
 
         .layered-container {
             position: relative;
             width: 100%;
-            height: 100%;
+            height: 80%;
+            /* Ajuste para melhor posicionamento */
             max-width: 1200px;
             margin: 0 auto;
-            perspective: 1000px;
+            perspective: 2000px;
+            /* Aumentado para efeito mais pronunciado */
         }
 
         .layered-image {
@@ -281,58 +292,271 @@
             max-width: 600px;
             height: 60vh;
             border-radius: 20px;
-            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3);
             transform-style: preserve-3d;
             object-fit: cover;
-            transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
-            opacity: 0;
-            will-change: transform;
+            transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+            opacity: 1;
+            /* Alterado para visível */
+            will-change: transform, box-shadow, z-index;
+            cursor: pointer;
         }
 
+        /* Efeitos de hover */
+        .layered-image:hover {
+            transform: translate(-50%, -50%) translateZ(150px) scale(1.2);
+            box-shadow: 0 40px 70px rgba(0, 0, 0, 0.4);
+            z-index: 10 !important;
+        }
+
+        .layered-container:hover .layered-image:not(:hover) {
+            filter: brightness(0.7);
+            transform: translate(-50%, -50%) translateZ(-50px) scale(0.9);
+        }
+
+        /* Posicionamento das imagens */
         .image-back {
             top: 50%;
-            left: 30%;
-            width: 35%;
+            left: 10%;
+            width: 50%;
             height: 50vh;
-            transform: translate(-50%, -50%) translateZ(-100px) scale(0.85);
+            transform: translate(-50%, -50%) translateZ(-100px) scale(0.9);
             z-index: 1;
         }
 
         .image-middle {
-            top: 50%;
+            top: 70%;
             left: 50%;
-            width: 40%;
-            height: 60vh;
-            transform: translate(-50%, -50%) translateZ(0) scale(1);
+            width: 45%;
+            height: 65vh;
+            transform: translate(-50%, -50%) translateZ(0) scale(1.05);
             z-index: 2;
         }
 
         .image-front {
-            top: 50%;
-            left: 70%;
+            top: 80%;
+
+            left: 80%;
             width: 30%;
-            height: 45vh;
-            transform: translate(-50%, -50%) translateZ(100px) scale(1.15);
+            height: 55vh;
+            transform: translate(-50%, -50%) translateZ(100px) scale(1.1);
             z-index: 3;
+        }
+
+        /* Animação de flutuação sutil */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%) translateZ(0) scale(1.05);
+            }
+
+            50% {
+                transform: translate(-50%, -52%) translateZ(20px) scale(1.07);
+            }
+        }
+
+        .image-middle {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Seção de Partículas 3D */
+        .particles-section {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #333;
+            color: white;
+            overflow: hidden;
+        }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .particles-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Nova Seção de Imersão 3D */
+        .immersion-section {
+            padding: 100px 5%;
+            background: #fff;
+            text-align: center;
+            position: relative;
+        }
+
+        .immersion-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 50px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .immersion-card {
+            width: 300px;
+            height: 400px;
+            perspective: 1000px;
+        }
+
+        .immersion-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .immersion-card:hover .immersion-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .immersion-card-front,
+        .immersion-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+        .immersion-card-front {
+            background: linear-gradient(135deg, #b8d19a, #b1eeea);
+            color: white;
+        }
+
+        .immersion-card-back {
+            background: rgba(0, 0, 0, 0.6);
+            /* Fundo escuro semi-transparente */
+            transform: rotateY(180deg);
+            overflow: hidden;
+            position: relative;
+            border-radius: 20px;
+        }
+
+
+        .immersion-card-back::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            /* Overlay escuro para contraste */
+            z-index: 0;
+            border-radius: 20px;
+        }
+
+        .immersion-card-back img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.5;
+            /* Reduz a opacidade da imagem para melhor contraste */
+            filter: brightness(0.7);
+            /* Escurece a imagem */
+            transition: opacity 0.5s ease;
+        }
+
+        .immersion-card-back img:hover {
+            opacity: 0.8;
+            /* Aumenta a opacidade ao passar o mouse */
+            filter: brightness(1);
+            /* Restaura o brilho ao passar o mouse */
+        }
+
+        .immersion-card-back-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            padding: 25px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .immersion-card-back-content p {
+            margin-top: 10px;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #ddd;
+        }
+
+        .immersion-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+        }
+
+        .immersion-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .immersion-card-back h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            line-height: 1.3;
+        }
+
+        .immersion-card-back p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            opacity: 0.9;
+            max-width: 90%;
+            margin: 0 auto;
         }
 
         /* Seção do Carrossel Espiral */
         .spiral-section {
             padding: 100px 5%;
-            background: #fff;
+            background: #f5f5f5;
             text-align: center;
             position: relative;
-            min-height: 150vh;
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-
-        /* Remover duplicidade: já definido acima */
 
         .spiral-container {
             position: relative;
-            width: 100%;
-            height: 100vh;
-            margin: 0 auto;
-            perspective: 2000px;
+            /* Mudado de absolute para relative */
+            width: 80%;
+            /* Ajuste a largura conforme necessário */
+            height: 60vh;
+            /* Ajuste a altura conforme necessário */
+            margin-top: 50px;
+            /* Espaço entre o título e o carrossel */
+            perspective: 1200px;
         }
 
         .spiral-carousel {
@@ -347,8 +571,8 @@
 
         .card {
             position: absolute;
-            width: clamp(200px, 80vw, 250px);
-            height: clamp(300px, 80vh, 350px);
+            width: 200px;
+            height: 300px;
             background: white;
             border-radius: 20px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
@@ -356,40 +580,27 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 30px;
-            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            padding: 20px;
             backface-visibility: hidden;
-            opacity: 0;
-            will-change: transform;
+            transition: all 0.3s ease;
+            overflow: hidden;
         }
 
-        .card-icon {
-            font-size: clamp(2rem, 6vw, 3rem);
-            margin-bottom: 20px;
-            color: #6e45e2;
-            transition: transform 0.3s ease;
-        }
-
-        .card-title {
-            font-size: clamp(1.2rem, 3vw, 1.5rem);
+        .card-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 15px 15px 0 0;
             margin-bottom: 15px;
-            color: #333;
-            font-weight: 600;
+            transition: transform 0.5s ease;
         }
 
-        .card-description {
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            color: #666;
-            line-height: 1.6;
+        .card-content {
+            padding: 0 15px 15px;
         }
 
-        .card:hover {
-            transform: translate3d(0, -10px, 0) !important;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        .card:hover .card-icon {
-            transform: scale(1.2);
+        .card:hover .card-image {
+            transform: scale(1.1);
         }
 
         /* Footer */
@@ -398,11 +609,14 @@
             color: white;
             padding: 50px 5%;
             text-align: center;
+            position: relative;
         }
 
         .footer-content {
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         .footer-links {
@@ -432,6 +646,11 @@
         @media (max-width: 992px) {
             .nav-links {
                 gap: 20px;
+            }
+
+            .immersion-card {
+                width: 250px;
+                height: 350px;
             }
         }
 
@@ -494,6 +713,16 @@
             #smoke-canvas {
                 opacity: 0.3;
             }
+
+            .immersion-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .immersion-card {
+                width: 80%;
+                height: 300px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -523,34 +752,42 @@
             #smoke-canvas {
                 opacity: 0.2;
             }
+
+            .immersion-card {
+                width: 100%;
+                height: 250px;
+            }
         }
     </style>
-    <!-- GSAP CDN -->
+
+    <!-- CDNs -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <!-- Three.js CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 </head>
 
 <body>
     <!-- Header Fixo -->
     <header id="header">
-        <a href="#" class="logo">Stepout</a>
-        <div class="nav-links">
+        <a href="#" class="logo" aria-label="Stepout - Voltar ao início">Stepout</a>
+        <nav class="nav-links" aria-label="Navegação principal">
             <a href="#hero">Início</a>
             <a href="#layered">3D Layers</a>
+            <a href="#particles">Partículas</a>
+            <a href="#immersion">Imersão</a>
             <a href="#spiral">Carrossel</a>
             <a href="#contact">Contato</a>
-        </div>
-        <div class="menu-toggle" id="menuToggle">☰</div>
+        </nav>
+        <button class="menu-toggle" id="menuToggle" aria-label="Menu mobile" aria-expanded="false">☰</button>
     </header>
 
     <!-- Hero Section (Parallax) -->
     <section class="hero" id="hero">
-        <canvas id="smoke-canvas"></canvas>
-        <div class="parallax-bg bg"></div>
-        <div class="parallax-bg layer-1"></div>
-        <div class="parallax-bg layer-2"></div>
+        <canvas id="smoke-canvas" aria-hidden="true"></canvas>
+        <div class="parallax-bg bg" aria-hidden="true"></div>
+        <div class="parallax-bg layer-1" aria-hidden="true"></div>
+        <div class="parallax-bg layer-2" aria-hidden="true"></div>
         <div class="hero-content">
             <h1 class="hero-title">Explore Novos Horizontes</h1>
             <p class="hero-text">Descubra uma experiência única com efeitos visuais impressionantes e interações
@@ -559,22 +796,84 @@
         </div>
     </section>
 
-    <section>
-        <h2 class="section-title">Experimente a Imersão 3D</h2>
-        <p>Role para ver os efeitos 3D interativos nas imagens acima. Cada camada se move de forma independente, criando
-            uma sensação de profundidade e realismo.</p>
-    </section>
-
     <!-- Seção de Imagens Sobrepostas 3D -->
     <section id="layered" class="layered-section">
         <h2 class="layered-title">Camadas 3D Interativas</h2>
         <div class="layered-container">
-            <img src="https://i.pinimg.com/1200x/06/0f/da/060fda1a394911c11e2af3ce7cb49966.jpg"
-                class="layered-image image-back" alt="Paisagem montanhosa">
+            <img src="https://i.pinimg.com/1200x/c5/8f/b5/c58fb5fe317c8737b38dddf08057eb28.jpg"
+                class="layered-image image-back" alt="Paisagem montanhosa em 3D" loading="lazy">
             <img src="https://i.pinimg.com/1200x/e6/4f/4a/e64f4ad55e0ec79b2a2cea7f2be38f99.jpg"
-                class="layered-image image-middle" alt="Floresta com neblina">
-            <img src="https://i.pinimg.com/1200x/0e/92/81/0e92819357c7ef35cdd3d9e0ec7fcaa6.jpg"
-                class="layered-image image-front" alt="Cachoeira tropical">
+                class="layered-image image-middle" alt="Floresta com neblina em 3D" loading="lazy">
+            <img src="https://i.pinimg.com/736x/19/0c/3a/190c3a03efc75eed65be043e74fbd578.jpg"
+                class="layered-image image-front" alt="Cachoeira tropical em 3D" loading="lazy">
+        </div>
+    </section>
+
+    <!-- Seção de Partículas 3D -->
+    <section id="particles" class="particles-section">
+        <div id="particles-js"></div>
+        <div class="particles-content">
+            <h2 class="section-title">Partículas Interativas</h2>
+            <p>Experimente nossa tecnologia de partículas que respondem aos seus movimentos e cliques, criando uma
+                experiência visual única e envolvente.</p>
+            <a href="#immersion" class="cta-button">Próxima Experiência</a>
+        </div>
+    </section>
+
+    <!-- Nova Seção de Imersão 3D -->
+    <section id="immersion" class="immersion-section">
+        <h2 class="section-title">Experimente a Imersão 3D</h2>
+        <p>Explore nossos recursos interativos que transformam a maneira como você interage com conteúdo digital. Passe
+            o mouse sobre os cards para descobrir mais.</p>
+
+        <div class="immersion-container">
+            <div class="immersion-card">
+                <div class="immersion-card-inner">
+                    <div class="immersion-card-front">
+                        <div class="immersion-icon">👁️</div>
+                        <h3>Visual 360°</h3>
+                    </div>
+                    <div class="immersion-card-back">
+                        <img src="https://i.pinimg.com/1200x/06/0f/da/060fda1a394911c11e2af3ce7cb49966.jpg"
+                            alt="Paisagem montanhosa" loading="lazy">
+                        <div class="immersion-card-back-content">
+                            <p>Gire objetos em tempo real com controle total do ângulo de visualização.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="immersion-card">
+                <div class="immersion-card-inner">
+                    <div class="immersion-card-front">
+                        <div class="immersion-icon">🖱️</div>
+                        <h3>Interação Total</h3>
+                    </div>
+                    <div class="immersion-card-back">
+                        <img src="https://i.pinimg.com/1200x/e6/4f/4a/e64f4ad55e0ec79b2a2cea7f2be38f99.jpg"
+                            alt="Floresta com neblina" loading="lazy">
+                        <div class="immersion-card-back-content">
+                            <p>Controle elementos 3D com movimentos do mouse e gestos touch.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="immersion-card">
+                <div class="immersion-card-inner">
+                    <div class="immersion-card-front">
+                        <div class="immersion-icon">🎚️</div>
+                        <h3>Profundidade Real</h3>
+                    </div>
+                    <div class="immersion-card-back">
+                        <img src="https://i.pinimg.com/1200x/0e/92/81/0e92819357c7ef35cdd3d9e0ec7fcaa6.jpg"
+                            alt="Cachoeira tropical" loading="lazy">
+                        <div class="immersion-card-back-content">
+                            <p>Efeitos de parallax avançados criam uma sensação autêntica de espaço 3D.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -594,10 +893,12 @@
             <div class="footer-links">
                 <a href="#hero">Início</a>
                 <a href="#layered">3D Layers</a>
+                <a href="#particles">Partículas</a>
+                <a href="#immersion">Imersão</a>
                 <a href="#spiral">Carrossel</a>
                 <a href="mailto:contato@stepout.com">Contato</a>
             </div>
-            <p class="copyright">© 2023 Stepout. Todos os direitos reservados.</p>
+            <p class="copyright">© 2025 Marcio Maker. Todos os direitos reservados.</p>
         </div>
     </footer>
 
@@ -615,6 +916,7 @@
         menuToggle.addEventListener('click', () => {
             navLinks.classList.toggle('active');
             menuToggle.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+            menuToggle.setAttribute('aria-expanded', navLinks.classList.contains('active'));
         });
 
         // Fechar menu ao clicar em um link
@@ -622,6 +924,7 @@
             link.addEventListener('click', () => {
                 navLinks.classList.remove('active');
                 menuToggle.textContent = '☰';
+                menuToggle.setAttribute('aria-expanded', 'false');
             });
         });
 
@@ -645,7 +948,7 @@
         // Variáveis para rastrear a posição do mouse
         let mouseX = 0;
         let mouseY = 0;
-        const mouseFactor = 0.05; // Fator de sensibilidade do mouse
+        const mouseFactor = 0.05;
 
         // Ouvinte de movimento do mouse
         document.addEventListener('mousemove', (e) => {
@@ -676,7 +979,7 @@
                 `translateX(${mouseX * 30}px) translateY(${mouseY * 30}px)`;
         }
 
-        // Efeito de scroll nas imagens (mantido do original)
+        // Efeito de scroll nas imagens
         window.addEventListener('scroll', () => {
             const scrollY = window.scrollY;
             const sectionOffset = layeredSection.offsetTop;
@@ -702,60 +1005,87 @@
             }
         });
 
-
-        // Carrossel Espiral 3D
-        const carousel = document.getElementById('carousel');
+        // Carrossel Espiral 3D - Versão com 3 cards
         const cardsData = [
-            { icon: "✨", title: "Design Moderno", description: "Interface limpa e intuitiva com efeitos visuais impressionantes." },
-            { icon: "🔄", title: "Interação 3D", description: "Experiência imersiva com rotação espacial controlada pelo scroll." },
-            { icon: "⚡", title: "Performance", description: "Otimizado para rodar suavemente em qualquer dispositivo." },
-            { icon: "🎨", title: "Criatividade", description: "Soluções visuais inovadoras para destacar seu projeto." },
-            { icon: "🚀", title: "Inovação", description: "Tecnologia de ponta para resultados incríveis e memoráveis." },
-            { icon: "💡", title: "Ideias", description: "Transformamos sua visão em realidade digital com excelência." }
+            {
+                image: "https://i.pinimg.com/736x/ad/59/cb/ad59cbfadd7e4425af66674cf9e46add.jpg",
+                title: "Design Moderno",
+                description: "Interface limpa e intuitiva"
+            },
+            {
+                image: "https://i.pinimg.com/736x/65/98/0c/65980cd2b517b517f6c275a25304bf52.jpg",
+                title: "Interação 3D",
+                description: "Experiência imersiva"
+            },
+            {
+                image: "https://i.pinimg.com/736x/df/c0/ad/dfc0ad35d20c0e7ffd97f74d4f9768fb.jpg",
+                title: "Performance",
+                description: "Roda suavemente"
+            }
         ];
 
-        // Criar cards dinamicamente
-        cardsData.forEach((data, i) => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
-                <div class="card-icon">${data.icon}</div>
-                <h3 class="card-title">${data.title}</h3>
-                <p class="card-description">${data.description}</p>
-            `;
-            carousel.appendChild(card);
+        // Cria os cards
+        cardsData.forEach((card, index) => {
+            const cardElement = document.createElement('div');
+            cardElement.className = 'card';
+            const angle = index * 120;
+            const radius = 250;
+
+            cardElement.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
+            cardElement.innerHTML = `
+        <img src="${card.image}" alt="${card.title}" class="card-image">
+        <div class="card-content">
+            <h3 class="card-title">${card.title}</h3>
+            <p class="card-description">${card.description}</p>
+        </div>
+    `;
+            carousel.appendChild(cardElement);
         });
+        // Controle de rotação
+        let rotationSpeed = 0.5; // Velocidade base
+        let targetSpeed = 0.5;
+        let currentAngle = 0;
+        let isScrolling = false;
+        let scrollTimeout;
 
-        const cards = document.querySelectorAll('.card');
-        const totalCards = cards.length;
+        // Animação principal
+        function animate() {
+            currentAngle += rotationSpeed;
+            carousel.style.transform = `translate(-50%, -50%) rotateY(${currentAngle}deg)`;
+            requestAnimationFrame(animate);
 
-        function getRadius() {
-            return window.innerWidth < 768 ? 250 : 400;
+            // Suaviza a mudança de velocidade
+            rotationSpeed += (targetSpeed - rotationSpeed) * 0.1;
         }
 
-        let angle = 0;
+        // Controle pelo scroll
+        window.addEventListener('wheel', (e) => {
+            isScrolling = true;
 
-        function arrangeCards() {
-            const radius = getRadius();
-            cards.forEach((card, i) => {
-                const phi = (i / totalCards) * Math.PI * 2;
-                const x = Math.cos(phi + angle) * radius;
-                const z = Math.sin(phi + angle) * radius;
-                const y = i * 20 - (totalCards * 10);
+            // Aumenta/diminui velocidade baseado no scroll
+            targetSpeed += e.deltaY * 0.001;
+            targetSpeed = Math.max(0.2, Math.min(3, targetSpeed)); // Limita entre 0.2 e 3
 
-                card.style.transform = `translate3d(${x}px, ${y}px, ${z}px) rotateY(${phi + angle}rad)`;
-                card.style.opacity = 1 - (Math.abs(z) / radius) * 0.5;
+            // Reseta o timeout do scroll
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                targetSpeed = 0.5; // Volta à velocidade normal após 1s sem scroll
+            }, 1000);
+        });
+
+        // Inicia animação
+        animate();
+
+        // Efeito hover nos cards
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                targetSpeed *= 0.5; // Reduz velocidade ao passar o mouse
             });
-        }
 
-        window.addEventListener('scroll', function () {
-            angle = window.scrollY * 0.005;
-            arrangeCards();
+            card.addEventListener('mouseleave', () => {
+                targetSpeed = 0.5; // Volta à velocidade normal
+            });
         });
-
-        window.addEventListener('resize', arrangeCards);
-        arrangeCards();
-
         // Animação GSAP
         gsap.registerPlugin(ScrollTrigger);
 
@@ -840,8 +1170,83 @@
             delay: 0.4
         });
 
+        // Seção Partículas Animations
+        gsap.to(".particles-section .section-title", {
+            scrollTrigger: {
+                trigger: ".particles-section",
+                start: "top 70%",
+                toggleActions: "play none none none"
+            },
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: "back.out(1.7)"
+        });
+
+        gsap.to(".particles-section p", {
+            scrollTrigger: {
+                trigger: ".particles-section",
+                start: "top 65%",
+                toggleActions: "play none none none"
+            },
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: "power3.out"
+        });
+
+        gsap.to(".particles-section .cta-button", {
+            scrollTrigger: {
+                trigger: ".particles-section",
+                start: "top 60%",
+                toggleActions: "play none none none"
+            },
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: "elastic.out(1, 0.5)"
+        });
+
+        // Seção Imersão Animations
+        gsap.to(".immersion-section .section-title", {
+            scrollTrigger: {
+                trigger: ".immersion-section",
+                start: "top 70%",
+                toggleActions: "play none none none"
+            },
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: "back.out(1.7)"
+        });
+
+        gsap.to(".immersion-section p", {
+            scrollTrigger: {
+                trigger: ".immersion-section",
+                start: "top 65%",
+                toggleActions: "play none none none"
+            },
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: "power3.out"
+        });
+
+        gsap.to(".immersion-card", {
+            scrollTrigger: {
+                trigger: ".immersion-section",
+                start: "top 60%",
+                toggleActions: "play none none none"
+            },
+            opacity: 1,
+            y: 0,
+            stagger: 0.2,
+            duration: 0.8,
+            ease: "power3.out"
+        });
+
         // Seção Carrossel Animations
-        gsap.to(".section-title", {
+        gsap.to(".spiral-section .section-title", {
             scrollTrigger: {
                 trigger: ".spiral-section",
                 start: "top 70%",
@@ -899,7 +1304,7 @@
             // Variáveis para interação com o mouse
             let mouseX = 0;
             let mouseY = 0;
-            const mouseFactor = 0.5; // Fator de sensibilidade do mouse
+            const mouseFactor = 0.5;
 
             // Ouvinte de movimento do mouse
             document.addEventListener('mousemove', (event) => {
@@ -931,9 +1336,9 @@
 
                 // Posição inicial no lado esquerdo
                 particle.position.set(
-                    -30 + Math.random() * 10,  // X (esquerda)
-                    (Math.random() - 0.5) * 10, // Y (altura)
-                    (Math.random() - 0.5) * 10  // Z (profundidade)
+                    -30 + Math.random() * 10,
+                    (Math.random() - 0.5) * 10,
+                    (Math.random() - 0.5) * 10
                 );
 
                 // Tamanho inicial
@@ -945,8 +1350,8 @@
                     speed: 0.1 + Math.random() * 0.2,
                     rotationSpeed: (Math.random() - 0.5) * 0.01,
                     targetOpacity: 0.3 + Math.random() * 0.3,
-                    baseY: particle.position.y, // Guarda a posição Y original
-                    baseZ: particle.position.z // Guarda a posição Z original
+                    baseY: particle.position.y,
+                    baseZ: particle.position.z
                 };
 
                 smokeParticles.push(particle);
@@ -970,7 +1375,7 @@
                     particle.position.x += pData.speed;
 
                     // Efeito do mouse na posição Y e Z
-                    particle.position.y = pData.baseY + (mouseY * 3); // Multiplicador para maior efeito
+                    particle.position.y = pData.baseY + (mouseY * 3);
                     particle.position.z = pData.baseZ + (mouseX * 3);
 
                     // Pequenas variações verticais adicionais
@@ -1013,7 +1418,6 @@
                 const scale = 3 + Math.random() * 5;
                 particle.scale.set(scale, scale, scale);
                 particle.userData.speed = 0.1 + Math.random() * 0.2;
-                // Atualiza as posições base para o efeito do mouse
                 particle.userData.baseY = particle.position.y;
                 particle.userData.baseZ = particle.position.z;
             }
@@ -1062,21 +1466,131 @@
 
             animate();
         });
-        function revealOnScroll() {
-        const elements = document.querySelectorAll('.hero h1, .hero p');
 
-        elements.forEach(el => {
-            const elementTop = el.getBoundingClientRect().top;
-            const windowHeight = window.innerHeight;
-
-            if (elementTop < windowHeight - 100) {
-                el.classList.add('show');
-            }
+        // Configuração particles.js
+        document.addEventListener('DOMContentLoaded', function () {
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": {
+                        "value": 80,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": "#ffffff"
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        },
+                        "polygon": {
+                            "nb_sides": 5
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.5,
+                        "random": false,
+                        "anim": {
+                            "enable": false,
+                            "speed": 1,
+                            "opacity_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 3,
+                        "random": true,
+                        "anim": {
+                            "enable": false,
+                            "speed": 40,
+                            "size_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#ffffff",
+                        "opacity": 0.4,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 2,
+                        "direction": "none",
+                        "random": false,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false,
+                        "attract": {
+                            "enable": false,
+                            "rotateX": 600,
+                            "rotateY": 1200
+                        }
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "grab"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "grab": {
+                            "distance": 140,
+                            "line_linked": {
+                                "opacity": 1
+                            }
+                        },
+                        "bubble": {
+                            "distance": 400,
+                            "size": 40,
+                            "duration": 2,
+                            "opacity": 8,
+                            "speed": 3
+                        },
+                        "repulse": {
+                            "distance": 200,
+                            "duration": 0.4
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        },
+                        "remove": {
+                            "particles_nb": 2
+                        }
+                    }
+                },
+                "retina_detect": true
+            });
         });
-    }
 
-    window.addEventListener('scroll', revealOnScroll);
-    window.addEventListener('load', revealOnScroll);
+        function revealOnScroll() {
+            const elements = document.querySelectorAll('.hero h1, .hero p, .section-title, section p, .immersion-card, .particles-content');
+
+            elements.forEach(el => {
+                const elementTop = el.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+
+                if (elementTop < windowHeight - 100) {
+                    el.classList.add('show');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', revealOnScroll);
     </script>
 </body>
 
